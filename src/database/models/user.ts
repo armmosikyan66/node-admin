@@ -1,8 +1,8 @@
-import {USER_ROLES} from "../../config/constants.js";
-import mongo from "mongoose";
+import {Mongoose} from "mongoose";
 import {IUser} from "../../types/IUser";
+import {USER_ROLES} from "../../config/constants";
 
-export default (mongoose: typeof mongo) => {
+export default (mongoose: Mongoose) => {
     const UserSchema = new mongoose.Schema({
         email: {
             type: String,

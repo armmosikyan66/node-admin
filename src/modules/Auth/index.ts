@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ViewsEndpoints from "./endpoints";
+import AuthEndpoints from "./endpoints";
 import { Module } from "../../types/IModules";
 
-export default class ViewsModule extends Module {
+export default class AuthModule extends Module {
     private router: Router;
     private apiRouter: Router;
 
@@ -18,10 +18,10 @@ export default class ViewsModule extends Module {
     }
 
     protected assignRouter(): void {
-        this.apiRouter.use("/admin", this.router);
+        this.apiRouter.use("/api", this.router);
     }
 
     protected assignEndpoints(): void {
-        ViewsEndpoints(this.router);
+        AuthEndpoints(this.router);
     }
 }

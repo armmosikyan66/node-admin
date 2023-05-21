@@ -1,3 +1,4 @@
+import "./src/database";
 import App from "./src/app";
 import { apiPort } from "./src/config";
 

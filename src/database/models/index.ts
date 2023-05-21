@@ -1,7 +1,8 @@
 import User from "./user";
 import Token from "./token";
-import mongo from "mongoose";
-export default function initModels(mongoose: typeof mongo): void {
+import {Mongoose} from "mongoose";
+
+export default function initModels(mongoose: Mongoose): void {
     User(mongoose);
     Token(mongoose);
 }

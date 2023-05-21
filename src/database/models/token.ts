@@ -1,11 +1,10 @@
-import mongo from "mongoose";
-import {ObjectId} from "mongodb";
+import {Mongoose} from "mongoose";
 import {IToken} from "../../types/IToken";
 
-export default (mongoose: typeof mongo) => {
+export default (mongoose: Mongoose) => {
     const TokenSchema = new mongoose.Schema({
         user: {
-            type: ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Users",
         },
         token: {

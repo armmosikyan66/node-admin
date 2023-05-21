@@ -16,7 +16,7 @@ class TokenRepo {
         this.model = mongoose.model("Tokens");
     }
 
-    public generateTokens(payload: string) {
+    public generateTokens(payload: object) {
         const accessToken = jwt.sign(payload, jwtAccessToken, {
             expiresIn: "1m",
         });
@@ -29,11 +29,11 @@ class TokenRepo {
         };
     }
 
-    public async saveToken(data: IToken): Promise<IToken> {
+    public async saveToken(data: object): Promise<IToken> {
         return await this.model.create(data);
     }
 
-    public async findAndModify(options: IOptions, data: IToken): Promise<IToken | null> {
+    public async findAndModify(options: IOptions, data: object): Promise<IToken | null> {
         return await this.model.findOneAndUpdate(options, data, {
             new: true
         })

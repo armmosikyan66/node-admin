@@ -14,4 +14,4 @@ export const DATE_FORMAT_STRING = "YYYY-MM-DD";
 export const USER_ROLES = {
     BASIC: "basic",
     PREMIUM: "premium",
-};
+} as const;

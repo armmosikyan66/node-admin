@@ -4,9 +4,11 @@ export interface IUser {
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    role: keyof typeof USER_ROLES,
+    role: typeof USER_ROLES[keyof typeof USER_ROLES];
     email: string;
     password: string;
-    isActivated: boolean;
-    activationLink: string;
+    isActivated?: boolean;
+    activationLink?: string;
+    id?: string;
+    _id?: string;
 }
