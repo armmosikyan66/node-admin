@@ -1,0 +1,11 @@
+table.dataTable .selected.odd {
+    background: #ccf5f7 !important;
+    border-color: #b8f2f3 !important;
+    color: #006c6f !important;
+}
+
+table.dataTable .selected.even {
+    background: #ccf5f7 !important;
+    border-color: #b8f2f3 !important;
+    color: #006c6f !important;
+}
