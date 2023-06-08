@@ -16,7 +16,7 @@ class TokenRepo {
         this.model = mongoose.model("Tokens");
     }
 
-    public generateTokens(payload: object) {
+    public generateTokens(payload: Buffer) {
         const accessToken = jwt.sign(payload, jwtAccessToken, {
             expiresIn: "1m",
         });

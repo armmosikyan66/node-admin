@@ -65,7 +65,8 @@ class AuthService {
             throw new BadRequest(INVALID("Password"));
         }
 
-        const tokens = tokenRepo.generateTokens(candidate);
+        const tokens = tokenRepo.generateTokens(JSON.parse(JSON.stringify(candidate)));
+
         await tokenRepo.findAndModify({user: candidate._id}, { token: tokens.refreshToken })
 
         return {
@@ -74,20 +75,13 @@ class AuthService {
         }
     }
 
-    static async refresh(user?: IUser): Promise<IAuth> {
-        const candidate = await userRepo.findOne({ _id: user?._id });
-        const tokenFromDb = await tokenRepo.findOne({user: candidate?._id});
-
-        if (!candidate || !tokenFromDb) {
-            throw new NotFound(NOT_EXISTS("User"));
-        }
-
-        const tokens = tokenRepo.generateTokens(candidate);
-        await tokenRepo.findAndModify({user: candidate._id}, { token: tokens.refreshToken })
+    static async refresh(user: IUser): Promise<IAuth> {
+        const tokens = tokenRepo.generateTokens(JSON.parse(JSON.stringify(user)));
+        await tokenRepo.findAndModify({user: user._id}, { token: tokens.refreshToken })
 
         return {
             ...tokens,
-            user: new UserDto(candidate)
+            user: new UserDto(user),
         }
     }
 

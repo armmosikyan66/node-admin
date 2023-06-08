@@ -11,6 +11,7 @@ import {CONNECTION_TIMEOUT} from "../config/constants";
         useUnifiedTopology: true
     };
     models(mongoose);
+
     await mongoose.connect(mongoUrl, options);
 
     mongoose.set("debug", true);
@@ -37,7 +38,7 @@ import {CONNECTION_TIMEOUT} from "../config/constants";
 
     process.on("SIGINT", () => {
         mongoose.disconnect();
-        process.exit();
+        process.exit(0);
     });
 
     return mongoose;

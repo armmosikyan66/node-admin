@@ -26,7 +26,7 @@ class UserRepository {
     }
 
     public async findOne(options: IOptions): Promise<IUser | null> {
-        return await this.model.findOne(options).exec();
+        return await this.model.findOne(options);
     }
 
     public async create(data: IUser): Promise<IUser> {

@@ -9,7 +9,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login - SB Admin Pro</title>
+    <title>Registration - SB Admin Pro</title>
     <link href="/css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon.png" />
     <script
@@ -33,14 +33,63 @@
                         <!-- Basic login form-->
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
                             <div class="card-header justify-content-center">
-                                <h3 class="font-weight-light my-4">Login</h3>
+                                <h3 class="font-weight-light my-4">Registration</h3>
                             </div>
                             <div class="card-body">
                                 <!-- Login form-->
                                 <form
                                         class="needs-validation"
-                                        id="admin_login"
+                                        id="admin_register"
                                 >
+                                    <div class="form-row">
+                                        <div class="col-6 form-group">
+                                            <label class="small mb-1" for="firstName"
+                                            >First name</label
+                                            >
+                                            <input
+                                                    class="form-control"
+                                                    name="firstName"
+                                                    id="firstName"
+                                                    type="text"
+                                                    placeholder="Enter First name"
+                                            />
+                                            <div id="firstNameError" class="invalid-feedback">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6 form-group">
+                                            <label class="small mb-1" for="lastName"
+                                            >Last name</label
+                                            >
+                                            <input
+                                                    class="form-control"
+                                                    name="lastName"
+                                                    id="lastName"
+                                                    type="text"
+                                                    placeholder="Enter First name"
+                                            />
+
+                                            <div id="lastNameError" class="invalid-feedback">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="phoneNumber"
+                                        >Phone Number</label
+                                        >
+                                        <input
+                                                class="form-control"
+                                                name="lastName"
+                                                id="phoneNumber"
+                                                type="text"
+                                                placeholder="Enter Phone Number"
+                                        />
+
+                                        <div id="phoneNumberError" class="invalid-feedback">
+
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label class="small mb-1" for="email"
                                         >E-mail</label
@@ -52,6 +101,10 @@
                                                 type="email"
                                                 placeholder="Enter email"
                                         />
+
+                                        <div id="emailError" class="invalid-feedback">
+
+                                        </div>
                                     </div>
                                     <!-- Form Group (password)-->
                                     <div class="form-group">
@@ -65,20 +118,9 @@
                                                 type="password"
                                                 placeholder="Enter password"
                                         />
-                                    </div>
-                                    <!-- Form Group (remember password checkbox)-->
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox">
-                                            <input
-                                                    class="custom-control-input"
-                                                    id="rememberPasswordCheck"
-                                                    type="checkbox"
-                                            />
-                                            <label
-                                                    class="custom-control-label"
-                                                    for="rememberPasswordCheck"
-                                            >Remember password</label
-                                            >
+
+                                        <div id="passwordError" class="invalid-feedback">
+
                                         </div>
                                     </div>
                                     <!-- Form Group (login box)-->
@@ -88,7 +130,7 @@
                                         <button
                                                 class="btn btn-primary w-100"
                                                 type="submit"
-                                        >Login</button>
+                                        >Registration</button>
                                     </div>
                                 </form>
                             </div>
@@ -138,15 +180,26 @@
             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     };
+    const validatePhoneNumber = (email) => {
+        return email.match(
+            /^\+?[0-9]{1,4}-?[0-9]{3,}$/
+        );
+    };
 
     $(document).ready(function(e) {
-        $(document).on("submit", "#admin_login", function (e) {
+        $(document).on("submit", "#admin_register", function (e) {
             e.preventDefault();
             e.stopPropagation();
+            const firstName = $("#firstName").val();
+            const lastName = $("#lastName").val();
+            const phoneNumber = $("#phoneNumber").val();
             const password = $("#password").val();
             const email = $("#email").val();
 
             const options = {
+                firstName,
+                lastName,
+                phoneNumber,
                 password,
                 email
             }
@@ -166,6 +219,24 @@
                     return true;
                 }
 
+                if (key === "phoneNumber" && !validatePhoneNumber(value)) {
+                    $(`#${key}`).css({borderColor: "red"});
+                    $(`#${key}Error`).text(`${labelText} is Invalid!`).css({display: "block"});
+                    return true;
+                }
+
+                if (key === "firstName" && (value < 2 || value > 20)) {
+                    $(`#${key}`).css({borderColor: "red"});
+                    $(`#${key}Error`).text(`${labelText} will be between 2 to 20`).css({display: "block"});
+                    return true;
+                }
+
+                if (key === "lastName" && (value < 2 || value > 25)) {
+                    $(`#${key}`).css({borderColor: "red"});
+                    $(`#${key}Error`).text(`${labelText} will be between 2 to 25`).css({display: "block"});
+                    return true;
+                }
+
                 if (key === "password" && (value < 6 || value > 20)) {
                     $(`#${key}`).css({borderColor: "red"});
                     $(`#${key}Error`).text(`${labelText} will be between 6 to 20`).css({display: "block"});
@@ -181,12 +252,11 @@
             if (notValid.length) return;
 
             $.ajax({
-                url: '/api/login',
+                url: '/api/register',
                 method: 'POST',
                 data: options,
                 success: function(data){
-                    window.location.replace("/admin/")
-                    localStorage.setItem("refreshToken", data.refreshToken)
+                   window.location.replace("/admin/login")
                 },
                 error: function({responseJSON: data}) {
                     Object.keys(options).forEach(key => {

@@ -2,6 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {CREATED_CODE, SUCCESS_CODE} from "../../config/statusCodes";
 import AuthService from "./auth.service";
 import {IRequestWithUser} from "../../middlewares/auth";
+import {IUser} from "../../types/IUser";
 
 class AuthController {
     public async register(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -25,7 +26,6 @@ class AuthController {
                 httpOnly: true,
                 secure: true,
             });
-            res.redirect('/admin');
             res.status(SUCCESS_CODE).json(user);
         } catch (e) {
             next(e);
@@ -35,8 +35,7 @@ class AuthController {
     async refresh(req: IRequestWithUser, res: Response, next: NextFunction): Promise<void> {
         try {
             const user = req.user;
-
-            const updatedUser = await AuthService.refresh(user);
+            const updatedUser = await AuthService.refresh(user as IUser);
 
             res.cookie("refreshToken", updatedUser.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
